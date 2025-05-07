@@ -3,10 +3,7 @@ package com.example.Ecommerce_SellPhone.service.Order;
 import com.example.Ecommerce_SellPhone.DTO.CartDTO;
 import com.example.Ecommerce_SellPhone.DTO.CartItemDTO;
 import com.example.Ecommerce_SellPhone.Exception.CustomException;
-import com.example.Ecommerce_SellPhone.models.Customer;
-import com.example.Ecommerce_SellPhone.models.Order;
-import com.example.Ecommerce_SellPhone.models.Order_Details;
-import com.example.Ecommerce_SellPhone.models.Product;
+import com.example.Ecommerce_SellPhone.models.*;
 import com.example.Ecommerce_SellPhone.repository.CartRepository;
 import com.example.Ecommerce_SellPhone.repository.OrderRepository;
 import com.example.Ecommerce_SellPhone.repository.Order_DetailsRepository;
@@ -62,5 +59,21 @@ public class OrderService {
     public List<Order> getAllOrderAmin(){
         List<Order> orderList = orderRepository.findAll();
         return orderList;
+    }
+    public boolean updateOrderStatus(int orderId, OrderStatus status) {
+        Optional<Order> optionalOrder = orderRepository.findById(orderId);
+        if (optionalOrder.isPresent()) {
+            Order order = optionalOrder.get();
+            order.setStatus(status);
+            orderRepository.save(order);
+            return true;
+        }
+        return false;
+    }
+    public List<Order> getOrdersByStatus(Customer customer, OrderStatus status) {
+        return orderRepository.findByCustomerAndStatus(customer, status);
+    }
+    public List<Order> getOrdersWithDetailsByStatus(Customer customer, OrderStatus status) {
+        return orderRepository.findOrdersWithDetailsByCustomerAndStatus(customer, status);
     }
 }

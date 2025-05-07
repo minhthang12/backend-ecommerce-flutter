@@ -2,6 +2,7 @@ package com.example.Ecommerce_SellPhone.service.OrderDetails;
 
 import com.example.Ecommerce_SellPhone.models.Customer;
 import com.example.Ecommerce_SellPhone.models.Order;
+import com.example.Ecommerce_SellPhone.models.OrderStatus;
 import com.example.Ecommerce_SellPhone.models.Order_Details;
 import com.example.Ecommerce_SellPhone.repository.Order_DetailsRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -26,4 +27,8 @@ public class OrderDetailsService {
         List<Order_Details> orderDetails = orderDetailsRepository.findByOrderId(order_id);
         return orderDetails;
     }
+    public List<Order_Details> getOrderDetailsByStatus(Customer customer, OrderStatus status) {
+        return orderDetailsRepository.findByOrderCustomerAndOrderStatus(customer, status);
+    }
+
 }

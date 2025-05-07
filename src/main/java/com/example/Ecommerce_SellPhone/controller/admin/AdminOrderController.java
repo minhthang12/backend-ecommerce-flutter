@@ -1,6 +1,7 @@
 package com.example.Ecommerce_SellPhone.controller.admin;
 
 import com.example.Ecommerce_SellPhone.models.Order;
+import com.example.Ecommerce_SellPhone.models.OrderStatus;
 import com.example.Ecommerce_SellPhone.models.Order_Details;
 import com.example.Ecommerce_SellPhone.service.Order.OrderService;
 import com.example.Ecommerce_SellPhone.service.OrderDetails.OrderDetailsService;
@@ -28,5 +29,24 @@ public class AdminOrderController {
         List<Order_Details> orderDetails = orderDetailsService.getOrderDetail_OrderID(order_id);
         return new ResponseEntity<>(orderDetails, HttpStatus.OK);
     }
+    @PutMapping("/update-status/{order_id}")
+    public ResponseEntity<String> updateOrderStatus(
+            @PathVariable("order_id") int orderId,
+            @RequestParam("status") String statusStr) {
+
+        try {
+            OrderStatus status = OrderStatus.valueOf(statusStr.toUpperCase());
+            boolean updated = orderService.updateOrderStatus(orderId, status);
+            if (updated) {
+                return ResponseEntity.ok("Order status updated successfully.");
+            } else {
+                return ResponseEntity.status(HttpStatus.NOT_FOUND).body("Order not found.");
+            }
+        } catch (IllegalArgumentException e) {
+            return ResponseEntity.badRequest().body("Invalid order status: " + statusStr);
+        }
+    }
+
+
 
 }

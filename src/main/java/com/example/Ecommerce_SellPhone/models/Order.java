@@ -2,7 +2,9 @@ package com.example.Ecommerce_SellPhone.models;
 
 import jakarta.persistence.*;
 
+import java.util.ArrayList;
 import java.util.Date;
+import java.util.List;
 
 @Entity
 @Table(name = "Orders")
@@ -14,9 +16,21 @@ public class Order {
     private Integer Order_total;
     private String Payment_Method;
     private String Address;
+    @Enumerated(EnumType.STRING)
+    private OrderStatus status;
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
+    @OneToMany
+    private List<Order_Details> orderDetails;
+
+    public List<Order_Details> getOrderDetails() {
+        return orderDetails;
+    }
+
+    public void setOrderDetails(List<Order_Details> orderDetails) {
+        this.orderDetails = orderDetails;
+    }
 
     public Integer getId() {
         return id;
@@ -66,5 +80,11 @@ public class Order {
         Address = address;
     }
 
+    public OrderStatus getStatus() {
+        return status;
+    }
 
+    public void setStatus(OrderStatus status) {
+        this.status = status;
+    }
 }

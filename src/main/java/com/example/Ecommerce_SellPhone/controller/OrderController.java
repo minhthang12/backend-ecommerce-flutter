@@ -4,6 +4,7 @@ import com.example.Ecommerce_SellPhone.DTO.CartDTO;
 import com.example.Ecommerce_SellPhone.common.ApiResponse;
 import com.example.Ecommerce_SellPhone.models.Customer;
 import com.example.Ecommerce_SellPhone.models.Order;
+import com.example.Ecommerce_SellPhone.models.OrderStatus;
 import com.example.Ecommerce_SellPhone.models.Order_Details;
 import com.example.Ecommerce_SellPhone.service.Auth.AuthService;
 import com.example.Ecommerce_SellPhone.service.Customer.CustomerService;
@@ -41,5 +42,23 @@ public class OrderController {
         Customer customer = customerService.findCustomerByJwt(jwt);
         List<Order> order = orderService.getAllOrder(customer);
         return new ResponseEntity<>(order, HttpStatus.OK);
+    }
+    @GetMapping("/user/status")
+    public ResponseEntity<List<Order>> getOrdersByStatus(
+            @RequestHeader("Authorization") String jwt,
+            @RequestParam("status") OrderStatus status) {
+
+        Customer customer = customerService.findCustomerByJwt(jwt);
+        List<Order> orders = orderService.getOrdersByStatus(customer, status);
+        return new ResponseEntity<>(orders, HttpStatus.OK);
+    }
+    @GetMapping("/status")
+    public ResponseEntity<List<Order>> getOrdersWithDetails(
+            @RequestHeader("Authorization") String jwt,
+            @RequestParam("status") OrderStatus status) {
+
+        Customer customer = customerService.findCustomerByJwt(jwt);
+        List<Order> orders = orderService.getOrdersWithDetailsByStatus(customer, status);
+        return ResponseEntity.ok(orders);
     }
 }

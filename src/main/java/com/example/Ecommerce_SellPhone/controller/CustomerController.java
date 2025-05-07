@@ -1,5 +1,6 @@
 package com.example.Ecommerce_SellPhone.controller;
 
+import com.example.Ecommerce_SellPhone.DTO.CartDTO;
 import com.example.Ecommerce_SellPhone.DTO.ProductDTO;
 import com.example.Ecommerce_SellPhone.DTO.SignIn_SignUp.SignInDTO;
 import com.example.Ecommerce_SellPhone.DTO.SignIn_SignUp.SignUpDTO;
@@ -20,4 +21,11 @@ import java.util.List;
 @RestController
 @RequestMapping("/customer")
 public class CustomerController {
+    @Autowired
+    private CustomerService customerService;
+    @GetMapping("/")
+    public ResponseEntity<Customer> getCustomer(@RequestHeader("Authorization") String jwt) {
+        Customer customer = customerService.findCustomerByJwt(jwt);
+        return new ResponseEntity<>(customer, HttpStatus.OK);
+    }
 }
