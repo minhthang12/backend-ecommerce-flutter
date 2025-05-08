@@ -12,6 +12,7 @@ public class Order_Details {
     private Integer Product_total_money;
     @ManyToOne
     @JoinColumn(name = "order_id")
+    @JsonIgnore
     private Order order;
     private int Quantity;
     @ManyToOne

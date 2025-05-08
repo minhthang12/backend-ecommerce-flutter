@@ -47,7 +47,7 @@ public class OrderService {
             Integer cartItemId = cartItem.getId();
             cartRepository.deleteById(cartItemId);
         }
-
+        order.setStatus(OrderStatus.PENDING);
         order.setOrder_total(cartDTO.getTotalCost());
         orderRepository.save(order);
     }

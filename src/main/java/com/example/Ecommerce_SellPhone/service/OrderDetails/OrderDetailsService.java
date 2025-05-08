@@ -30,5 +30,4 @@ public class OrderDetailsService {
     public List<Order_Details> getOrderDetailsByStatus(Customer customer, OrderStatus status) {
         return orderDetailsRepository.findByOrderCustomerAndOrderStatus(customer, status);
     }
-
 }

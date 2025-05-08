@@ -21,7 +21,7 @@ public class Order {
     @ManyToOne
     @JoinColumn(name = "customer_id")
     private Customer customer;
-    @OneToMany
+    @OneToMany(mappedBy = "order", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     private List<Order_Details> orderDetails;
 
     public List<Order_Details> getOrderDetails() {
